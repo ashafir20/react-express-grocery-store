@@ -1,4 +1,5 @@
 var dispatcher = require('./../dispatcher.js');
+var restHelper = require('./../helpers/RestHelper.js');
 
 //only the store may change the data inside the store
 //only getters no setters
@@ -6,17 +7,14 @@ var dispatcher = require('./../dispatcher.js');
 //it catches the payload and triggers the listeners callbacks with the payload
 //the idea is that other components should not temper with what is going on inside the store
 function GroceryItemStore () {
-    var items = [
-        {
-            name: "Banana",
-            purchased: true,
-        },
-        {
-            name: 'Yugurt'
-        },
-        {
-            name: 'Cornflakes'
-        }];
+    var items = [];
+        
+    restHelper.get("api/items")
+        .then(function(data) {
+           items = data;
+           triggerListeners(); 
+        }); 
+    
     var listeners = [];
     
     function getItems() {
@@ -30,6 +28,8 @@ function GroceryItemStore () {
     function addGroceryItem(item) {
         items.push(item);
         triggerListeners();
+        
+        restHelper.post("api/items", item);
     }
     
     function deleteGroceryItem(item) {
@@ -42,6 +42,8 @@ function GroceryItemStore () {
         
         items.splice(index, 1);
         triggerListeners();
+        
+        restHelper.remove("api/items/" + item._id);
     }
     
     function triggerListeners() {
@@ -54,6 +56,8 @@ function GroceryItemStore () {
         var _item = items.filter(function(a) {return a.name === item.name})[0];
         _item.purchased = isBought || false;
         triggerListeners();
+        
+         restHelper.patch("api/items/" + item._id, item);
     }
     
     dispatcher.register(function(event){
