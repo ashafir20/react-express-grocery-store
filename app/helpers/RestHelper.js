@@ -34,7 +34,7 @@ module.exports = {
                error: error
            }) 
         });
-    }
+    },
     remove: function(url, data) {
         return new Promise(function(success, error){
            $.ajax({
