@@ -1,0 +1,21 @@
+{
+  "name": "react-express-exemplar",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "aviv <aviv@innovid.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "^15.0.1",
+    "skeleton": "^2.0.4"
+  }
+}
